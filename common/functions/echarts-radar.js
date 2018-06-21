@@ -1,6 +1,6 @@
 import { sortBy, each, uniqBy, flattenDeep } from 'lodash';
 
-export const radar = {
+export const radar = () => ({
   name: 'radar',
   type: 'render',
   context: {
@@ -119,4 +119,4 @@ export const radar = {
       },
     };
   },
-};
+});

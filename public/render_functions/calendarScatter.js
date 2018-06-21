@@ -6,7 +6,7 @@ function isBetween(start, limit) {
     }
 }
 
-export default {
+export const  calendarScatter = () => ({
   name: 'calendarScatter',
   displayName: 'Calendar Scatter',
   help: 'A Calendar representing anomalies over time',
@@ -102,4 +102,4 @@ export default {
     // tell the system the timeline is ready
     handlers.done();
   },
-};
+});

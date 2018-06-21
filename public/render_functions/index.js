@@ -1,5 +1,5 @@
-import calendarScatter from './calendarScatter';
-import radar from './radar';
+import { calendarScatter } from './calendarScatter';
+import { radar } from './radar';
 
 export const renderFunctions = [
     calendarScatter,

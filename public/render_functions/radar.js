@@ -1,6 +1,6 @@
 import echarts from 'echarts';
 
-export default {
+export const radar = () => ({
   name: 'radar',
   displayName: 'Radar',
   help: 'A Radar representing entity profiling',
@@ -39,4 +39,4 @@ export default {
     // tell the system the timeline is ready
     handlers.done();
   },
-};
+});

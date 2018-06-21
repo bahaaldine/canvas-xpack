@@ -1,4 +1,4 @@
-export const calendarScatter = {
+export const calendarScatter = () => ({
   name: 'calendarScatter',
   type: 'render',
   context: {
@@ -18,4 +18,4 @@ export const calendarScatter = {
       },
     };
   },
-};
+});

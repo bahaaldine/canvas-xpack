@@ -1,7 +1,9 @@
+import chrome from 'ui/chrome';
 import axios from 'axios';  
-import { ml } from './ml'
+import ml from './ml';
+import { fetch } from '../../../common/lib/fetch';
 
-export const mlResultsBuckets = {
+export const mlResultsBuckets = () => ({
   name: 'mlResultsBuckets',
   type: 'datatable',
   help: 'Query the X-Pack Machine Learning Resluts Buckets API',
@@ -40,23 +42,18 @@ export const mlResultsBuckets = {
   },
   fn(context, args, handlers) {
     // try handlers ^^
-    console.log(handlers)
     const { job } = args;
     const api = ml.host + ml.root + ml.anomaly_detectors + '/' + job + ml.results.buckets + '?' 
     const { anomaly_score, desc, end, exclude_interim, expand, sort, start, from, size } = args;
     const bucketUrl = ml.addArgs( api, { anomaly_score, desc, end, exclude_interim, expand, sort, start, from, size } );
 
-    return axios.request({
-      method: 'get',
-      url: bucketUrl,
-      auth: {
-        username: ml.auth.username,
-        password: ml.auth.password
-      },
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
+    const basePath = chrome.getBasePath();
+    const apiPath = `${basePath}/canvas-xpack/ml`;
+    
+    return fetch.post( apiPath , {
+      bucketUrl: bucketUrl,
+      username: ml.auth.username,
+      password: ml.auth.password
     })
     .then((res) => {
       let dataTable = {
@@ -66,13 +63,14 @@ export const mlResultsBuckets = {
       };
 
       if ( res.data.buckets.length > 0 ) {
-        dataTable.columns = Object.keys(res.data.buckets[0]).map(col => ({ name: col, type: 'unknown' }));
+          dataTable.columns = Object.keys(res.data.buckets[0]).map(col => ({ name: col, type: 'unknown' }));
       }
 
       return dataTable;
 
     })
     .catch(err => {
+      console.log(err)
       return {
         type: 'datatable',
         columns: ['error'],
@@ -80,9 +78,9 @@ export const mlResultsBuckets = {
       }
     })
   }
-};
+});
 
-export const mlResultsCategories = {
+export const mlResultsCategories = () => ({
   name: 'mlResultsCategories',
   type: 'datatable',
   help: 'Query the X-Pack Machine Learning Resluts Categories API',
@@ -105,17 +103,13 @@ export const mlResultsCategories = {
     const { from, size } = args;
     const bucketUrl = ml.addArgs( api, { from, size } );
 
-    return axios.request({
-      method: 'get',
-      url: bucketUrl,
-      auth: {
-        username: ml.auth.username,
-        password: ml.auth.password
-      },
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
+    const basePath = chrome.getBasePath();
+    const apiPath = `${basePath}/canvas-xpack/ml`;
+    
+    return fetch.post( apiPath , {
+      bucketUrl: bucketUrl,
+      username: ml.auth.username,
+      password: ml.auth.password
     })
     .then((res) => {
       let dataTable = {
@@ -128,7 +122,6 @@ export const mlResultsCategories = {
         dataTable.columns = Object.keys(res.data.categories[0]).map(col => ({ name: col, type: 'unknown' }));
 
       return dataTable;
-
     })
     .catch(err => {
       return {
@@ -138,9 +131,9 @@ export const mlResultsCategories = {
       }
     })
   }
-};
+});
 
-export const mlResultsInfluencers = {
+export const mlResultsInfluencers = () => ({
   name: 'mlResultsInfluencers',
   type: 'datatable',
   help: 'Query the X-Pack Machine Learning Resluts Influencers API',
@@ -181,17 +174,13 @@ export const mlResultsInfluencers = {
     const { influencer_score, desc, end, exclude_interim, sort, start, from, size } = args;
     const bucketUrl = ml.addArgs( api, { influencer_score, desc, end, exclude_interim, sort, start, from, size } );
 
-    return axios.request({
-      method: 'get',
-      url: bucketUrl,
-      auth: {
-        username: ml.auth.username,
-        password: ml.auth.password
-      },
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
+    const basePath = chrome.getBasePath();
+    const apiPath = `${basePath}/canvas-xpack/ml`;
+    
+    return fetch.post( apiPath , {
+      bucketUrl: bucketUrl,
+      username: ml.auth.username,
+      password: ml.auth.password
     })
     .then((res) => {
       let dataTable = {
@@ -204,10 +193,11 @@ export const mlResultsInfluencers = {
         dataTable.columns = Object.keys(res.data.influencers[0]).map(col => ({ name: col, type: 'unknown' }));
       }
 
-      return dataTable;
+      return dataTable;;
 
     })
     .catch(err => {
+      console.log(err)
       return {
         type: 'datatable',
         columns: ['error'],
@@ -215,9 +205,9 @@ export const mlResultsInfluencers = {
       }
     })
   }
-};
+});
 
-export const mlResultsRecords = {
+export const mlResultsRecords = () => ({
   name: 'mlResultsRecords',
   type: 'datatable',
   help: 'Query the X-Pack Machine Learning Resluts Records API',
@@ -258,17 +248,13 @@ export const mlResultsRecords = {
     const { record_score, desc, end, exclude_interim, sort, start, from, size } = args;
     const bucketUrl = ml.addArgs( api, { record_score, desc, end, exclude_interim, sort, start, from, size } );
 
-    return axios.request({
-      method: 'get',
-      url: bucketUrl,
-      auth: {
-        username: ml.auth.username,
-        password: ml.auth.password
-      },
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
+    const basePath = chrome.getBasePath();
+    const apiPath = `${basePath}/canvas-xpack/ml`;
+    
+    return fetch.post( apiPath , {
+      bucketUrl: bucketUrl,
+      username: ml.auth.username,
+      password: ml.auth.password
     })
     .then((res) => {
       let dataTable = {
@@ -285,6 +271,7 @@ export const mlResultsRecords = {
 
     })
     .catch(err => {
+      console.log(err)
       return {
         type: 'datatable',
         columns: ['error'],
@@ -292,4 +279,4 @@ export const mlResultsRecords = {
       }
     })
   }
-};
+});

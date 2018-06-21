@@ -1,5 +1,5 @@
+import routes from './server/routes/api';
 import { serverFunctions } from './server/functions';
-import { commonFunctions } from './common/functions';
 
 export default function (kibana) {
   return new kibana.Plugin({
@@ -19,18 +19,8 @@ export default function (kibana) {
     },
 
     init(server) {
-      // here we register the available server assets, along with any common assets
-
-      // register server and common functions in the client runtime
+      routes(server);
       serverFunctions.forEach(fn => server.plugins.canvas.addFunction(fn));
-      commonFunctions.forEach(fn => server.plugins.canvas.addFunction(fn));
-
-      // additional specs that can be registered but are not used in this boilerplate
-      // typeSpecs.forEach(spec => server.plugins.canvas.addType(spec));
-
-      // load any types as well:
-      const types = [];
-      types.forEach(fn => server.plugins.canvas.addType(fn));
     }
   });
 }
